@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From Jason, For My Cia 🤍</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+font-family:'Indie Flower',cursive;
+background:linear-gradient(135deg,#fff0f5,#ffe6f2);
+height:100vh;
+overflow:hidden;
+}
+
+/* Navigation */
+nav{
+position:fixed;
+bottom:15px;
+left:50%;
+transform:translateX(-50%);
+display:flex;
+gap:10px;
+z-index:100;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+nav button{
+background:#ff6b81;
+color:white;
+border:none;
+padding:8px 16px;
+border-radius:20px;
+cursor:pointer;
+font-family:'Quicksand';
+font-size:14px;
+}
+
+/* Pages */
+.page{
+position:absolute;
+inset:0;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+transition:.4s ease;
+}
+
+.hidden{
+opacity:0;
+pointer-events:none;
+}
+
+.container{
+background:#ffebee;
+padding:35px;
+border-radius:25px;
+border:3px solid #ff6b81;
+box-shadow:0 10px 25px rgba(255,107,129,.3);
+max-width:480px;
+width:95%;
+text-align:center;
+overflow-y:auto;
+max-height:90vh;
+}
+
+h1{
+font-size:clamp(24px,5vw,36px);
+color:#ff4f70;
+margin-bottom:15px;
+}
+
+.gif img{
+max-width:100%;
+border-radius:15px;
+margin:15px 0;
+}
+
+.btn{
+padding:10px 22px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-family:'Quicksand';
+background:#ff6b81;
+color:white;
+margin-top:10px;
+}
+
+/* Progress */
+.progress{
+height:15px;
+background:#ffd6de;
+border-radius:20px;
+margin-top:15px;
+overflow:hidden;
+}
+
+.progress-bar{
+height:100%;
+width:0%;
+background:#ff4f70;
+transition:.4s;
+}
+
+.checklist label{
+display:block;
+margin:8px 0;
+font-family:'Quicksand';
+}
+
+/* Hearts */
+.hearts-container{
+position:fixed;
+inset:0;
+pointer-events:none;
+overflow:hidden;
+}
+
+.heart{
+position:absolute;
+font-size:20px;
+animation:floatUp linear forwards;
+}
+
+@keyframes floatUp{
+from{transform:translateY(0);opacity:1;}
+to{transform:translateY(-100vh);opacity:0;}
+}
+
+/* Confetti */
+.confetti{
+position:absolute;
+width:8px;
+height:8px;
+animation:confettiFall linear forwards;
+}
+
+@keyframes confettiFall{
+from{transform:translateY(-20px) rotate(0deg);}
+to{transform:translateY(100vh) rotate(720deg);}
+}
+</style>
+</head>
+<body>
+
+<div class="hearts-container"></div>
+
+<!-- HOME -->
+<div id="home" class="page">
+<div class="container">
+<h1>Hey uuu, cia 🤍</h1>
+<div class="gif">
+<img src="https://media.tenor.com/efbi1EpFlVUAAAAi/bugcat-capoo.gif">
+</div>
+<p style="font-family:'Quicksand'">
+This lil site is a reminder for you to take care of yourself & to know that you are loved🤍
+</p>
+</div>
+</div>
+
+<!-- HEALTHY -->
+<div id="healthy" class="page hidden">
+<div class="container">
+<h1>Healthy Reminder 💪</h1>
+<div class="gif">
+<img src="https://media.tenor.com/x6y3X_jfK-0AAAAi/cute-bunny.gif">
+</div>
+<button class="btn" onclick="newReminder()">Press For a Reminder 🤍</button>
+<div id="reminderText" style="margin-top:10px;font-family:'Quicksand';min-height:40px;"></div>
+</div>
+</div>
+
+<!-- TRACKER -->
+<div id="tracker" class="page hidden">
+<div class="container">
+<h1>Daily Tracker 🌿</h1>
+
+<div class="checklist">
+<label><input type="checkbox" onchange="updateProgress()"> Stay Hidrated 🥛</label>
+<label><input type="checkbox" onchange="updateProgress()"> Eat on time 🍽️</label>
+<label><input type="checkbox" onchange="updateProgress()"> Have enough sleep 💤</label>
+<label><input type="checkbox" onchange="updateProgress()"> Be happy 😃</label>
+</div>
+
+<div class="progress">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+
+<p id="progressText" style="font-family:'Quicksand';margin-top:10px;"></p>
+<p id="streakText" style="font-family:'Quicksand';margin-top:5px;"></p>
+
+<div id="badgeContainer" style="margin-top:10px;"></div>
+
+<h3 style="margin-top:15px;font-family:'Quicksand';">7-Day Stats</h3>
+<div id="statsContainer" style="font-family:'Quicksand';font-size:14px;"></div>
+
+</div>
+</div>
+
+<!-- LOVE -->
+<div id="love" class="page hidden">
+<div class="container">
+<h1>For You, Cia 💕</h1>
+<div class="gif">
+<img src="https://media.tenor.com/YTw87WdiaasAAAAi/tkthao219-capoo.gif">
+</div>
+<button class="btn" onclick="loveClick()">Click Me 💗</button>
+<p id="loveText" style="font-family:'Quicksand';margin-top:10px;"></p>
+</div>
+</div>
+
+<nav>
+<button onclick="showPage('home')">Home</button>
+<button onclick="showPage('healthy')">Healthy</button>
+<button onclick="showPage('tracker')">Tracker</button>
+<button onclick="showPage('love')">For You</button>
+</nav>
+
+<script>
+
+/* Navigation */
+function showPage(id){
+document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
+document.getElementById(id).classList.remove('hidden');
+}
+
+/* Date utils */
+function getToday(){ return new Date().toISOString().split("T")[0]; }
+function formatDate(d){ return d.toISOString().split("T")[0]; }
+
+/* Reminder */
+const reminders=[
+"Minum air putih dulu ya 🤍",
+"Jangan telat makan 😠",
+"Istirahat yang cukup ya 💕",
+"Aku mau kamu sehat terus 🥹",
+"Kurangi konsumsi yang ga sehat ya 🧡"
+];
+
+function newReminder(){
+document.getElementById("reminderText").innerText=
+reminders[Math.floor(Math.random()*reminders.length)];
+burstConfetti();
+}
+
+/* Tracker */
+const TOTAL_TASKS=4;
+
+function updateProgress(){
+const today=getToday();
+const checkboxes=document.querySelectorAll("#tracker input");
+
+let checked=0;
+checkboxes.forEach(cb=>{if(cb.checked)checked++;});
+let percent=(checked/TOTAL_TASKS)*100;
+
+document.getElementById("progressBar").style.width=percent+"%";
+document.getElementById("progressText").innerText=
+Math.round(percent)+"% Completed 🤍";
+
+let data=JSON.parse(localStorage.getItem("dailyTracker"))||{};
+data[today]=[...checkboxes].map(cb=>cb.checked);
+localStorage.setItem("dailyTracker",JSON.stringify(data));
+
+if(percent===100){ handleStreak(today); burstConfetti(); }
+
+renderStats();
+}
+
+/* Streak */
+function handleStreak(today){
+let streak=JSON.parse(localStorage.getItem("streakData"))||{
+currentStreak:0,lastCompletedDate:null};
+
+if(streak.lastCompletedDate===today) return;
+
+let y=new Date(); y.setDate(y.getDate()-1);
+let yDate=formatDate(y);
+
+if(streak.lastCompletedDate===yDate) streak.currentStreak++;
+else streak.currentStreak=1;
+
+streak.lastCompletedDate=today;
+localStorage.setItem("streakData",JSON.stringify(streak));
+
+displayStreak();
+checkBadge(streak.currentStreak);
+}
+
+function displayStreak(){
+let streak=JSON.parse(localStorage.getItem("streakData"))||{currentStreak:0};
+document.getElementById("streakText").innerText=
+"🔥 Current Streak: "+streak.currentStreak+" day(s)";
+}
+
+/* Badge */
+function checkBadge(streak){
+if(streak%7===0){
+let badges=JSON.parse(localStorage.getItem("badges"))||[];
+if(!badges.includes(streak)){
+badges.push(streak);
+localStorage.setItem("badges",JSON.stringify(badges));
+alert("🎉 7-Day Streak Badge Unlocked!");
+}
+}
+renderBadges();
+}
+
+function renderBadges(){
+let badges=JSON.parse(localStorage.getItem("badges"))||[];
+const c=document.getElementById("badgeContainer");
+c.innerHTML="";
+badges.forEach(b=>{
+let span=document.createElement("span");
+span.innerText="🏅 "+b+" Days ";
+span.style.margin="5px";
+span.style.padding="5px 10px";
+span.style.background="#ffd6de";
+span.style.borderRadius="12px";
+c.appendChild(span);
+});
+}
+
+/* Stats */
+function renderStats(){
+const c=document.getElementById("statsContainer");
+c.innerHTML="";
+let data=JSON.parse(localStorage.getItem("dailyTracker"))||{};
+for(let i=6;i>=0;i--){
+let d=new Date(); d.setDate(d.getDate()-i);
+let date=formatDate(d);
+let percent=0;
+if(data[date]){
+let checked=data[date].filter(v=>v).length;
+percent=Math.round((checked/TOTAL_TASKS)*100);
+}
+let row=document.createElement("div");
+row.innerText=date+" : "+percent+"%";
+c.appendChild(row);
+}
+}
+
+/* Love */
+function loveClick(){
+const messages=[
+"Aku bangga sama kamu 🤍",
+"I lobbb u 💕",
+"Aku selalu dukung kamu 💗",
+"Terima kasih sudah jadi kamu 🥹"
+];
+document.getElementById("loveText").innerText=
+messages[Math.floor(Math.random()*messages.length)];
+burstConfetti();
+}
+
+/* Confetti */
+function burstConfetti(){
+for(let i=0;i<60;i++){
+const conf=document.createElement('div');
+conf.classList.add('confetti');
+conf.style.left=Math.random()*100+"vw";
+conf.style.backgroundColor=`hsl(${Math.random()*360},70%,60%)`;
+conf.style.animationDuration=2+Math.random()*2+"s";
+document.body.appendChild(conf);
+setTimeout(()=>conf.remove(),4000);
+}
+}
+
+/* Hearts background */
+setInterval(()=>{
+const heart=document.createElement('div');
+heart.classList.add('heart');
+heart.innerHTML="💖";
+heart.style.left=Math.random()*100+"vw";
+heart.style.animationDuration=3+Math.random()*3+"s";
+document.querySelector('.hearts-container').appendChild(heart);
+setTimeout(()=>heart.remove(),6000);
+},800);
+
+/* Load on start */
+(function init(){
+const today=getToday();
+let data=JSON.parse(localStorage.getItem("dailyTracker"))||{};
+const checkboxes=document.querySelectorAll("#tracker input");
+
+if(data[today]){
+checkboxes.forEach((cb,i)=>cb.checked=data[today][i]);
+}
+updateProgress();
+displayStreak();
+renderBadges();
+renderStats();
+})();
+</script>
+
+</body>
+</html>
